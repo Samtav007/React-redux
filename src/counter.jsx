@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStore } from 'redux';
 import reducer from './Components/Reducer'; 
 import { Increment, Decrement } from './Components/Action'; 
+
 const store = createStore(reducer);
 
 export default function LikeCounter() {
   const initialState = store.getState().count;
-  const [count, setCount] = React.useState(initialState);
+  const [count, setCount] = useState(initialState);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = store.subscribe(() => {
       setCount(store.getState().count);
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return (
